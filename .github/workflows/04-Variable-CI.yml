@@ -1,8 +1,8 @@
-# GitHub Actions with the Variable used and the Demonstration
+# GitHub Actions: Variable Usage Demonstration
 
-name: "[Workflow-5] Variable Usage Demonstration Workflow"
+name: "🔧 [Workflow-5] GitHub Actions Variable Configuration"
 
-run-name: "[Workflow-5] ${{ github.actor }} developing the Variable usage in GitHub Actions"
+run-name: "🔧 [Workflow-5] ${{ github.actor }} → Configuring Workflow Variables"
 
 on:
   push:

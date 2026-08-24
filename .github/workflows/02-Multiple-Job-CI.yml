@@ -1,8 +1,8 @@
-# GitHub Actions: Multiple CI Job file YAML configuration
+# GitHub Actions: Multiple CI Job Configuration
 
-name: "[Workflow-2] Multiple Job Configuration"
+name: "⚙️ [Workflow-2] Multiple Job CI Configuration"
 
-run-name: "[Workflow-2] ${{ github.actor }} have configured the Build, Test, Deploy with Multiple Job Configurations"
+run-name: "⚙️ [Workflow-2] ${{ github.actor }} → Orchestrating Build, Test & Deploy Jobs"
 
 on:
   push:

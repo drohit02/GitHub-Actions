@@ -1,6 +1,8 @@
-name: "[Workflow-1] Node-CI Workflows Development"
+# Node.js CI Workflow
 
-run-name: "[Workflow-1] ${{ github.actor }} Developing the Node CI Development Workflows"
+name: "🟢 [Workflow-1] Node.js CI Development Workflow"
+
+run-name: "🟢 [Workflow-1] ${{ github.actor }} → Building Node.js CI"
 
 on:
   push:

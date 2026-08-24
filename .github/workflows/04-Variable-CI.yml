@@ -2,7 +2,7 @@
 
 name: "🔧 [Workflow-4] GitHub Actions Variable Configuration"
 
-run-name: "🔧 [Workflow-4s] ${{ github.actor }} → Configuring Workflow Variables"
+run-name: "🔧 [Workflow-4] ${{ github.actor }} → Configuring Workflow Variables"
 
 on:
   push:

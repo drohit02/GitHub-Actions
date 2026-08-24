@@ -1,8 +1,8 @@
 # GitHub Actions: Job Level Workflow Configuration
 
-name: "⚙️ [Workflow-5] Job Level Workflow Configuration"
+name: "🧩 [Workflow-5] Job Level Workflow Configuration"
 
-run-name: "⚙️ [Workflow-5] ${{ github.actor }} → Configuring Job-Level Variables"
+run-name: "🧩 [Workflow-5] ${{ github.actor }} → Configuring Job-Level Variables"
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       - run: echo "Running the Node JS App Build on ${{ env.ENVIRONMENT }} with Node Version ${{ env.NODE_VERSION_REQUIRED }}"
 
       - run: cd 05-Job-Level-Config-CI-Workflow && npm install
-      - run: cd 05-Job-Level-Config-CI-Workflow && npm run dev-build
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm run dev
 
 
   qa-environment-job-config:
@@ -51,7 +51,7 @@ jobs:
       - run: echo "Running the Node JS App Build on ${{ env.ENVIRONMENT }} with Node Version ${{ env.NODE_VERSION_REQUIRED }}"
 
       - run: cd 05-Job-Level-Config-CI-Workflow && npm install
-      - run: cd 05-Job-Level-Config-CI-Workflow && npm run qa-build
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm run qa
 
 
   prod-environment-job-config:
@@ -72,4 +72,4 @@ jobs:
       - run: echo "Running the Node JS App Build on ${{ env.ENVIRONMENT }} with Node Version ${{ env.NODE_VERSION_REQUIRED }}"
 
       - run: cd 05-Job-Level-Config-CI-Workflow && npm install
-      - run: cd 05-Job-Level-Config-CI-Workflow && npm run prod-build
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm run prod

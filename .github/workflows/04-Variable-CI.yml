@@ -1,0 +1,34 @@
+# GitHub Actions with the Variable used and the Demonstration
+
+name: "[Workflow-5] Variable Usage Demonstration Workflow"
+
+run-name: "[Workflow-5] ${{ github.actor }} developing the Variable usage in GitHub Actions"
+
+on:
+  push:
+    paths:
+      - "04-Variables-CI-Workflow/*"
+      - ".github/workflows/04-Variable-CI.yml"
+
+env:
+  NODE_VERSION_REQUIRED: "24"
+  APP_NAME: "GitHub Actions Variable Demo App"
+  ENVIRONMENT: "Development"
+
+jobs:
+  runner:
+    name: Env Variable Access Stage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION_REQUIRED }}
+
+      - run: echo "Running the ${{ env.APP_NAME }} on Ubuntu in ${{ env.ENVIRONMENT }} environment"
+
+      - run: cd 04-Variables-CI-Workflow && npm install
+
+      - run: cd 04-Variables-CI-Workflow && npm run info

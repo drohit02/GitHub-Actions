@@ -8,6 +8,9 @@ on :
   push : 
     braches : 
       - develop
+    paths : 
+      - ".github/workflows/06-Branch-Based-Config-CI.yml"
+      - "06-Branch-Based-Config-Workflow/*"
 
 jobs : 
   config-job :

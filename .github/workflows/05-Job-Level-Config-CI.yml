@@ -1,0 +1,75 @@
+# GitHub Actions: Job Level Workflow Configuration
+
+name: "⚙️ [Workflow-5] Job Level Workflow Configuration"
+
+run-name: "⚙️ [Workflow-5] ${{ github.actor }} → Configuring Job-Level Variables"
+
+on:
+  push:
+    paths:
+      - ".github/workflows/05-Job-Level-Config-CI.yml"
+      - "05-Job-Level-Config-CI-Workflow/**"
+
+jobs:
+
+  dev-environment-job-config:
+    name: "Dev Environment Job Configuration"
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_VERSION_REQUIRED: '18'
+      ENVIRONMENT: "DEV"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION_REQUIRED }}
+
+      - run: echo "Running the Node JS App Build on ${{ env.ENVIRONMENT }} with Node Version ${{ env.NODE_VERSION_REQUIRED }}"
+
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm install
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm run dev-build
+
+
+  qa-environment-job-config:
+    name: "QA Environment Job Configuration"
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_VERSION_REQUIRED: '20'
+      ENVIRONMENT: "QA"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION_REQUIRED }}
+
+      - run: echo "Running the Node JS App Build on ${{ env.ENVIRONMENT }} with Node Version ${{ env.NODE_VERSION_REQUIRED }}"
+
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm install
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm run qa-build
+
+
+  prod-environment-job-config:
+    name: "Prod Environment Job Configuration"
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_VERSION_REQUIRED: '25'
+      ENVIRONMENT: "PROD"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION_REQUIRED }}
+
+      - run: echo "Running the Node JS App Build on ${{ env.ENVIRONMENT }} with Node Version ${{ env.NODE_VERSION_REQUIRED }}"
+
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm install
+      - run: cd 05-Job-Level-Config-CI-Workflow && npm run prod-build

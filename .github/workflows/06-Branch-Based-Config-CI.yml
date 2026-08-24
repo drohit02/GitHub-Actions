@@ -1,0 +1,27 @@
+# GitHub Actions: Branch-Based Configuration Workflow
+
+name: "🌿 [Workflow-6] Branch-Based Configuration Workflow"
+
+run-name: "🌿 [Workflow-6] ${{ github.actor }} → Running Development Branch CI"
+
+on : 
+  push : 
+    braches : 
+      - develop
+
+jobs : 
+  config-job :
+    name : "Development Branch-Based Configuration"
+    runs-on : ubuntu-latest
+    steps :
+      - uses : actions/checkout@v4
+
+      - uses : actions/setup-node@v7
+        with : 
+          node-version : '20'
+      
+      - run : echo "Running Branch-Based Configuration on develop braches changes !!"
+
+      - run : cd 06-Branch-Based-Config-Workflow && npm install
+
+      - run : cd 06-Branch-Based-Config-Workflow && npm run config

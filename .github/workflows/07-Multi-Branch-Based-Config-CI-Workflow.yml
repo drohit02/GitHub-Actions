@@ -1,0 +1,48 @@
+# GitHub Actions: Multiple Branch CI Workflow
+
+name: "🌿 [Workflow-7] Multiple Branch CI Workflow"
+
+run-name: "🌿 [Workflow-7] ${{ github.actor }} → Running Multi-Branch CI"
+
+on:
+  push:
+    branches:
+      - 'develop'
+      - 'staging'
+
+    paths:
+      - '.github/workflows/07-Multi-Branch-Based-Config-CI.yml'
+      - '07-Multi-Branch-Based-Config-CI-Workflow/**'
+
+jobs:
+
+  multi-branch-job-config:
+    name: "Multi Branch Base Config Setup"
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - run: echo "Configuring the Multi Branch Base Config for develop and staging branches"
+
+      - run: cd 07-Multi-Branch-Based-Config-CI-Workflow && npm install
+
+      - name: "Running the Node JS App Script Based on the Branch"
+        shell: bash
+        run: |
+          if [ "${{ github.ref_name }}" == "develop" ]; then
+            echo "Node JS App Test Running for Develop Branch!!"
+            cd 07-Multi-Branch-Based-Config-CI-Workflow && npm run dev
+
+          elif [ "${{ github.ref_name }}" == "staging" ]; then
+            echo "Node JS App Test Running for Staging Branch!!"
+            cd 07-Multi-Branch-Based-Config-CI-Workflow && npm run staging
+
+          else
+            echo "No Test will run for the ${{ github.ref_name }} branch"
+          fi

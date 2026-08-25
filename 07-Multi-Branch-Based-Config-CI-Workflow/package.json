@@ -1,0 +1,8 @@
+{
+    "name" : "Branch-Based Configuration using the GitHub Actions",
+    "version": "1.0.0",
+    "scripts": {
+        "dev" : "node dev-test.js",
+        "stagging" : "node stage-test.js"
+    }
+}

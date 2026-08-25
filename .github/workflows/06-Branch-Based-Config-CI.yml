@@ -25,6 +25,6 @@ jobs :
       
       - run : echo "Running Branch-Based Configuration on develop braches changes !!"
 
-      - run : cd 06-Branch-Based-Config-Workflow && npm install
+      - run : cd 06-Branch-Based-Config-CI-Workflow && npm install
 
-      - run : cd 06-Branch-Based-Config-Workflow && npm run config
+      - run : cd 06-Branch-Based-Config-CI-Workflow && npm run config

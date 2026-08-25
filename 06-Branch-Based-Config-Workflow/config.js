@@ -1,1 +1,0 @@
-console.log("Branch Job Configuration using GitHub Actions");

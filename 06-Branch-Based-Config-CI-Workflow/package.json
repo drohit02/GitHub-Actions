@@ -1,0 +1,7 @@
+{
+    "name" : "Branch-Based Configuration using the GitHub Actions",
+    "version": "1.0.0",
+    "scripts": {
+        "config" : "node config.js"
+    }
+}

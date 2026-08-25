@@ -11,7 +11,7 @@ on:
       - 'staging'
 
     paths:
-      - '.github/workflows/07-Multi-Branch-Based-Config-CI.yml'
+      - '.github/workflows/07-Multi-Branch-Based-Config-CI-Workflow.yml'
       - '07-Multi-Branch-Based-Config-CI-Workflow/**'
 
 jobs:

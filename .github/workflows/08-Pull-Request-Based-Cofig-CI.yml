@@ -1,0 +1,23 @@
+# GitHub Actions: Pull Request CI Workflow
+
+name: "🔀 [Workflow-8] Pull Request CI Workflow"
+
+run-name: "🔀 [Workflow-8] ${{ github.actor }} → Running Pull Request CI"
+
+on : 
+  pull_request : 
+    branches : [develop , master]
+    types : [opened , reopened]
+
+jobs : 
+  pull_request_job : 
+    name : 'Pull Request CI Job'
+    runs-on : ubuntu-latest
+    steps :
+      - uses : actions/checkout@v4
+      - uses : actions/setup-node@v7
+        with : 
+          node-version : '20'
+      - run : echo 'Pull Request : ${{github.ref_name}} is opened or reopened'
+      - run : cd 08-Pull-Request-CI-Workflow && npm install
+      - run : cd 08-Pull-Request-CI-Workflow && npm run test

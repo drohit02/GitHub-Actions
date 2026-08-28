@@ -3,6 +3,6 @@
     "version": "1.0.0",
     "scripts": {
         "dev" : "node dev-test.js",
-        "stagging" : "node stage-test.js"
+        "stage" : "node stage-test.js"
     }
 }

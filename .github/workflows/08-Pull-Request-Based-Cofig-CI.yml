@@ -12,7 +12,10 @@ on:
       - opened
       - synchronize
       - reopened
-
+    paths : 
+      - '08-Pull-Request-CI-Workflow/*'
+      - '.github/workflows/08-Pull-Request-Based-Config-CI.yml'
+   
 jobs:
   pull_request_job:
     name: "Pull Request CI Job"

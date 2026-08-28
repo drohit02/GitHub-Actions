@@ -14,14 +14,14 @@ on:
       - reopened
     paths:
       - '09-Pull-&-Push-Request-Based-Config-CI-Workflow/**'
-      - '.github/workflows/09-Pull-&-Push-Request-Based-Config-CI.yml'
+      - '.github/workflows/09-Pull-Push-Request-Based-Config-CI.yml'
 
   push:
     branches:
       - master
     paths:
       - '09-Pull-&-Push-Request-Based-Config-CI-Workflow/**'
-      - '.github/workflows/09-Pull-&-Push-Request-Based-Config-CI.yml'
+      - '.github/workflows/09-Pull-Push-Request-Based-Config-CI.yml'
 
 jobs:
   push-pull-request-job:

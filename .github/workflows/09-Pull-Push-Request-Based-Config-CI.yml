@@ -37,6 +37,6 @@ jobs:
 
       - run: echo "Running Push And Pull-Request Based Config Workflow!!"
 
-      - run: cd 09-Pull-&-Push-Request-Based-Config-CI-Workflow && npm install
+      - run: cd 09-Pull-Push-Request-Based-Config-CI-Workflow && npm install
 
-      - run: cd 09-Pull-&-Push-Request-Based-Config-CI-Workflow && npm run test
+      - run: cd 09-Pull-Push-Request-Based-Config-CI-Workflow && npm run test

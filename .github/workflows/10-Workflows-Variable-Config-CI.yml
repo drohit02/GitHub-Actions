@@ -1,0 +1,48 @@
+# GitHub Actions: Workflow Variables
+
+# ---------------------------------------------------------
+# env vs vars in GitHub Actions
+#
+# env:
+# - Environment variables defined in the workflow YAML.
+# - Can be defined at workflow, job, or step level.
+# - Accessed using: ${{ env.VARIABLE_NAME }}
+#
+# vars:
+# - GitHub Actions configuration variables.
+# - Usually configured in Repository / Organization / Environment settings.
+# - Accessed using: ${{ vars.VARIABLE_NAME }}
+#
+# Key Difference:
+# env  → Defined in YAML
+# vars → Managed through GitHub Actions configuration settings
+# ---------------------------------------------------------
+
+name: "🔧 [Workflow-10] Workflow Variables"
+
+run-name: "🔧 [Workflow-10] ${{ github.actor }} → Working with Workflow Variables"
+
+on :
+  push : 
+    - develop
+    - master
+
+  paths :
+    - .github/workflows/10-Workflows-Variable-Config-CI.yml
+    - 10-Workflows-Variable-Config-CI-Workflow/*
+
+jobs : 
+  workflow-variable-job-config : 
+    name :  Workflow Variable CI Job Accessed
+    runs-on : ubuntu-latest
+    steps : 
+      - uses :  actions/checkout@v4
+      - uses : actions/setup-node@v7
+        with : 
+          node-version : ${{vars.WF10_NODE_VERSION}} 
+
+      - run: echo "Running CI with Node.js ${{ vars.WF10_NODE_VERSION }} via vars"
+
+      - run: cd 10-Workflow-Variable-Config-CI-Workflow && npm install
+      
+      - run: cd 10-Workflow-Variable-Config-CI-Workflow && npm run test

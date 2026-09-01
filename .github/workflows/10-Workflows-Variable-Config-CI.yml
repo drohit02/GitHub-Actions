@@ -23,13 +23,13 @@ name: "🔧 [Workflow-10] Workflow Variables"
 run-name: "🔧 [Workflow-10] ${{ github.actor }} → Working with Workflow Variables"
 
 on :
-  push : 
-    - develop
-    - master
-
-  paths :
-    - .github/workflows/10-Workflows-Variable-Config-CI.yml
-    - 10-Workflows-Variable-Config-CI-Workflow/*
+  push :
+    branches :  
+      - develop
+      - master
+    paths :
+      - .github/workflows/10-Workflows-Variable-Config-CI.yml
+      - 10-Workflows-Variable-Config-CI-Workflow/*
 
 jobs : 
   workflow-variable-job-config : 
@@ -44,5 +44,5 @@ jobs :
       - run: echo "Running CI with Node.js ${{ vars.WF10_NODE_VERSION }} via vars"
 
       - run: cd 10-Workflow-Variable-Config-CI-Workflow && npm install
-      
+
       - run: cd 10-Workflow-Variable-Config-CI-Workflow && npm run test

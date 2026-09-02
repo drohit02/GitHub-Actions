@@ -1,0 +1,42 @@
+# GitHub Actions: Push + Pull Request CI Workflow
+
+name: "🚀 [Workflow-9] Push + Pull Request CI Workflow"
+
+run-name: "🚀 [Workflow-9] ${{ github.actor }} → Running Push + Pull Request CI"
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - '09-Pull-&-Push-Request-Based-Config-CI-Workflow/**'
+      - '.github/workflows/09-Pull-Push-Request-Based-Config-CI.yml'
+
+  push:
+    branches:
+      - master
+    paths:
+      - '09-Pull-&-Push-Request-Based-Config-CI-Workflow/**'
+      - '.github/workflows/09-Pull-Push-Request-Based-Config-CI.yml'
+
+jobs:
+  push-pull-request-job:
+    name: 'Push And Pull-Request Job Config Workflow'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - run: echo "Running Push And Pull-Request Based Config Workflow!!"
+
+      - run: cd 09-Pull-Push-Request-Based-Config-CI-Workflow && npm install
+
+      - run: cd 09-Pull-Push-Request-Based-Config-CI-Workflow && npm run test

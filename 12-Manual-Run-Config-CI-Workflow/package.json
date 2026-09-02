@@ -1,0 +1,9 @@
+{
+    "name" : "Manual-Workflow-Run-Configuation using GitHub Actions",
+    "version": "1.0.1",
+    "scripts": {
+        "dev" : "node dev-build.js",
+        "qa" : "node dev-build.js",
+        "prod" : "node dev-build.js"
+    }
+}

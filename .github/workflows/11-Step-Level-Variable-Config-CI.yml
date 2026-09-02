@@ -1,0 +1,50 @@
+# GitHub Actions: Step Level Environment Variable Configuration
+
+name: "⚙️ [Workflow-11] Step Level Environment Variable Configuration"
+
+run-name: "⚙️ [Workflow-11] ${{ github.actor }} → Configuring Step-Level Variables"
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+    paths:
+      - .github/workflows/11-Step-Level-Variable-Config-CI.yml
+      - 11-Step-Level-Variable-Config-CI-Workflow/*
+
+jobs:
+  step-level-variable-config:
+    name: Step-Level-Environment-Job-Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: Development Environment Configuration
+        env:
+          BUILD_ENV: 'develop'
+        run: echo "Running Step Level Environment for ${{ env.BUILD_ENV }}"
+
+      - name: Install Development Dependencies
+        run: cd 11-Step-Level-Variable-Config-CI-Workflow && npm install
+
+      - name: Run Development Application
+        env:
+          BUILD_ENV: 'develop'
+        run: cd 11-Step-Level-Variable-Config-CI-Workflow && npm run dev
+
+      - name: Production Environment Configuration
+        env:
+          BUILD_ENV: 'production'
+        run: echo "Running Step Level Environment for ${{ env.BUILD_ENV }}"
+
+      - name: Run Production Application
+        env:
+          BUILD_ENV: 'production'
+        run: cd 11-Step-Level-Variable-Config-CI-Workflow && npm run prod

@@ -1,0 +1,8 @@
+{
+    "name" : "Step-Level-Configuation using GitHub Actions",
+    "version": "1.0.1",
+    "scripts": {
+        "dev" : "node dev-build.js",
+        "prod" : "node prod-build.js"
+    }
+}

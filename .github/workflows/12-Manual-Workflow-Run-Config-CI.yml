@@ -1,0 +1,43 @@
+# GitHub Actions: Manual Workflow Dispatch Configuration
+
+name: "▶️ [Workflow-12] Manual Workflow Dispatch Configuration"
+
+run-name: "▶️ [Workflow-12] ${{ github.actor }} → Manually Running Workflow"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select the Environment !!"
+        required: true
+        type: choice
+        options:
+          - development
+          - qa
+          - production
+        default: development
+
+jobs:
+  manual-run-workflow-config:
+    name: Manual-Run-Workflow-Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - run: echo "Running the Manual Run for the ${{ inputs.environment }} Environment !!!"
+
+      - run: cd 12-Manual-Run-Config-CI-Workflow && npm install
+
+      - run: cd 12-Manual-Run-Config-CI-Workflow && npm run dev
+        if: ${{ inputs.environment == 'development' }}
+
+      - run: cd 12-Manual-Run-Config-CI-Workflow && npm run qa
+        if: ${{ inputs.environment == 'qa' }}
+
+      - run: cd 12-Manual-Run-Config-CI-Workflow && npm run prod
+        if: ${{ inputs.environment == 'production' }}

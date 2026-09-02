@@ -1,0 +1,46 @@
+# GitHub Actions: Manual Workflow Branch and Environment Configuration
+
+name: "🌿 [Workflow-13] Manual Branch & Environment Configuration"
+
+run-name: "🌿 [Workflow-13] ${{ github.actor }} → Running ${{ inputs.environment }} Environment"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select the Environment"
+        required: true
+        type: choice
+        options:
+          - development
+          - qa
+          - production
+        default: development
+
+jobs:
+  manual-run-with-branch-config:
+    name: Manual Run with the Branch Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - run: echo "Running the Manual Run for the ${{ inputs.environment }} Environment !!!"
+
+      - run: cd 13-Manual-Run-With-Branch-Config-CI-Workflow && npm install
+
+      - name: Running the Node JS App for the development environment
+        if: ${{ inputs.environment == 'development' && github.ref_name == 'develop' }}
+        run: cd 13-Manual-Run-With-Branch-Config-CI-Workflow && npm run dev
+
+      - name: Running the Node JS App for the QA environment
+        if: ${{ inputs.environment == 'qa' && github.ref_name == 'staging' }}
+        run: cd 13-Manual-Run-With-Branch-Config-CI-Workflow && npm run qa
+
+      - name: Running the Node JS App for the production environment
+        if: ${{ inputs.environment == 'production' && github.ref_name == 'master' }}
+        run: cd 13-Manual-Run-With-Branch-Config-CI-Workflow && npm run prod

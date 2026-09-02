@@ -1,5 +1,5 @@
 {
-    "name" : "Manual-Workflow-Run-Configuation using GitHub Actions",
+    "name" : "Manual-Workflow-Run-With-Branch-Configuation using GitHub Actions",
     "version": "1.0.1",
     "scripts": {
         "dev" : "node dev-build.js",

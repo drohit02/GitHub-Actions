@@ -2,59 +2,61 @@
 
 name: "🎛️ [Workflow-14] Manual Multiple Input Configuration"
 
-run-name: "🎛️ [Workflow-14] ${{ github.actor }} → Running ${{ inputs.environment }} Environment with Test Configuration"
+run-name: "🎛️ [Workflow-14] ${{ github.actor }} → Running ${{ inputs.target_environment }} Environment with Test Configuration"
 
-on :
-  workflow_dispatch :
-    inputs :
-      target_environment : 
-        description : "Select the Environment"
-        required : true
-        type :  choice
-        options : 
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "Select the Environment"
+        required: true
+        type: choice
+        options:
           - 'development'
           - 'qa'
           - 'production'
-        default : 'development'
-      run_tests : 
-        description : Run Test-Cases ?
-        required : true
-        type : boolean
-        default : true
-      node_version : 
-        description : Select Node Version
-        required : true
-        type : string
-        default : '22'
+        default: 'development'
 
-jobs :
-  multiple-input-config : 
-    name : Multiple Inpute Configuration
-    runs-on : ubuntu-latest
-    steps :
+      run_tests:
+        description: "Run Test-Cases?"
+        required: true
+        type: boolean
+        default: true
 
-      - uses :  actions/checkout@v4
+      node_version:
+        description: "Select Node Version"
+        required: true
+        type: string
+        default: '22'
 
-      - uses : actions/setup-node@v7
-        with :
-          node-version : ${{inputs.node_version}}
+jobs:
+  multiple-input-config:
+    name: Multiple Input Configuration
+    runs-on: ubuntu-latest
 
-      - run :  echo "Running the Node JS app for the ${{inputs.target_environment}} with ${{inputs.run_tests}} and Node Version ${{inputs.node_version}}"
+    steps:
+      - uses: actions/checkout@v4
 
-      - run : cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm install
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ inputs.node_version }}
 
-      - name : Runnig Node JS Test Cases before Deployment
-        if : ${{ inputs.run_tests == true }}
-        run : echo 'Running the Test Cases' for ${{inputs.target_environment}} && cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run test 
+      - run: echo "Running the Node JS app for ${{ inputs.target_environment }} with Tests=${{ inputs.run_tests }} and Node Version=${{ inputs.node_version }}"
 
-      - name : Running Node JS Deployment for the Development Environment
-        if : ${{github.ref_name == 'develop'}} && ${{inputs.target_environment == 'development'}}
-        run : cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run dev
+      - run: cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm install
 
-      - name : Running Node JS Deployment for the QA Environment
-        if : ${{github.ref_name == 'staging'}} && ${{inputs.target_environment == 'qa'}}
-        run : cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run dev
-      
-      - name : Running Node JS Deployment for the Production Environment
-        if : ${{github.ref_name == 'master'}} && ${{inputs.target_environment == 'production'}}
-        run : cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run dev
+      - name: Running Node JS Test Cases before Deployment
+        if: ${{ inputs.run_tests == true }}
+        run: echo "Running the Test Cases for ${{ inputs.target_environment }}" && cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run test
+
+      - name: Running Node JS Deployment for the Development Environment
+        if: ${{ github.ref_name == 'develop' && inputs.target_environment == 'development' }}
+        run: cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run dev
+
+      - name: Running Node JS Deployment for the QA Environment
+        if: ${{ github.ref_name == 'staging' && inputs.target_environment == 'qa' }}
+        run: cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run qa
+
+      - name: Running Node JS Deployment for the Production Environment
+        if: ${{ github.ref_name == 'master' && inputs.target_environment == 'production' }}
+        run: cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run prod

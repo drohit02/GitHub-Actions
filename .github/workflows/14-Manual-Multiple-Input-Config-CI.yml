@@ -45,7 +45,7 @@ jobs :
 
       - name : Runnig Node JS Test Cases before Deployment
         if : ${{ inputs.run_tests == true }}
-        run : echo 'Running the Test Cases' for ${{inputs.target_environment}} && npm run test 
+        run : echo 'Running the Test Cases' for ${{inputs.target_environment}} && cd 14-Manual-Multiple-Input-Config-CI-Workflow && npm run test 
 
       - name : Running Node JS Deployment for the Development Environment
         if : ${{github.ref_name == 'develop'}} && ${{inputs.target_environment == 'development'}}

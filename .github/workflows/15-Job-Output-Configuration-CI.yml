@@ -1,61 +1,127 @@
-# GitHub Actions: Job Output Configuration
+# ============================================================
+# Workflow-15: Job Output Configuration
+#
+# Purpose:
+# Demonstrates how to pass data from one job to another job.
+#
+# Flow:
+# Step Output → Job Output → Another Job
+# ============================================================
 
 name: "🔗 [Workflow-15] Job Output Configuration"
 
 run-name: "🔗 [Workflow-15] ${{ github.actor }} → Passing Data Between Jobs"
 
-on : 
-  push :
-    branches : 
-      - 'develop'
-      - 'master'
-    paths : 
+on:
+  push:
+    branches:
+      - develop
+      - master
+    paths:
       - '15-Job-Output-Configuration-CI.yml'
-      - '15-Job-Output-Configuration-CI-Workflow'
+      - '15-Job-Output-Configuration-CI-Workflow/**'
 
-jobs : 
-  build-job : 
-    name :  Node Js App Build Job
-    runs-on : ubuntu-latest
-    outputs : 
-      build-version :  ${{steps.build_step_1.outputs.app_version}}
-      node-vesion : ${{steps.build_step_1.outputs.node_version}}
-    env : 
-          BUILD_VERSION : '1.2.1'
-          NODE_VERSION : '24'
-    steps : 
-      - name : build steps for Node JS
-        id : build_step_1
+jobs:
 
-      - uses : actions/checkout@v4
+  # ==========================================================
+  # BUILD JOB
+  # Creates step outputs and exposes them as job outputs.
+  # ==========================================================
+  build-job:
 
-      - uses : actions/setup-nde@v7
-        with :
-          node-version : ${{env.NODE_VERSION}}
+    name: Node Js App Build Job
 
-      - run : ehco "Running the Node Js Test with the ${{env.NODE_VERSION}}"" && cd 15-Job-Output-Configuration-CI-Workflow && npm install
+    runs-on: ubuntu-latest
 
-      - run :  cd 15-Job-Output-Configuration-CI-Workflow && npm run Test
+    # Job Outputs
+    # These outputs can be accessed by other jobs.
+    outputs:
+      build-version: ${{ steps.build_output.outputs.app_version }}
+      node-version: ${{ steps.build_output.outputs.node_version }}
 
-      - run : echo  "Running the Node Js Build " && npm run build && echo "app_version=${{env.BUILD_VERSION}}" >> $GITHUB_OUTPUT
+    env:
+      BUILD_VERSION: '1.2.1'
+      NODE_VERSION: '24'
 
-      - run : echo "node_version=${{env.NODE_VERSION}}" >> $GITHUB_OUTPUT
+    steps:
 
-    deployment :
-      name :  Node Js App Deployment Job
-      runs-on : ubuntu-latest
-      needs :  build-job
-      env : 
-        APP_VERSION : ${{needs.build-job.outputs.build-version}}
-        NODE_VERSION : ${{needs.build-job.outputs.node-version}}
-      steps : 
+      # Checkout repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-        - uses : actions/checkout@v4
-        - uses : actions/setup-node@v7
-          with :
-            node-version : ${{env.NODE_VERSION}}
-        - run : echo "Started the Node Js Deployement with the ${{env.NODE_VERSION}}"" && cd 15-Job-Output-Configuration-CI-Workflow && npm install
+      # Install required Node.js version
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-        - run : echo "Running the Node Js Deployement with the ${{env.APP_VERSION}} App Version && cd 15-Job-Output-Configuration-CI-Workflow && npm run deploy
+      # Install project dependencies
+      - name: Install Dependencies
+        run: |
+          echo "Running Node.js with version ${{ env.NODE_VERSION }}"
+          cd 15-Job-Output-Configuration-CI-Workflow
+          npm install
+
+      # Run application tests
+      - name: Run Tests
+        run: |
+          cd 15-Job-Output-Configuration-CI-Workflow
+          npm run test
+
+      # Build application and create step outputs
+      - name: Build Application and Generate Outputs
+        id: build_output
+        run: |
+          cd 15-Job-Output-Configuration-CI-Workflow
+          echo "Running the Node.js Build"
+          npm run build
+
+          echo "app_version=${{ env.BUILD_VERSION }}" >> $GITHUB_OUTPUT
+          echo "node_version=${{ env.NODE_VERSION }}" >> $GITHUB_OUTPUT
 
 
+  # ==========================================================
+  # DEPLOYMENT JOB
+  # Receives outputs from build-job using needs context.
+  # ==========================================================
+  deployment:
+
+    name: Node Js App Deployment Job
+
+    runs-on: ubuntu-latest
+
+    # Wait for build-job to complete successfully
+    needs: build-job
+
+    # Access outputs from build-job
+    env:
+      APP_VERSION: ${{ needs.build-job.outputs.build-version }}
+      NODE_VERSION: ${{ needs.build-job.outputs.node-version }}
+
+    steps:
+
+      # Checkout repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Setup Node.js using output received from build-job
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: |
+          echo "Started the Node.js Deployment with Node.js ${{ env.NODE_VERSION }}"
+          cd 15-Job-Output-Configuration-CI-Workflow
+          npm install
+
+      # Deploy application using build version received from build-job
+      - name: Deploy Application
+        run: |
+          echo "Running Node.js Deployment"
+          echo "Deploying Application Version: ${{ env.APP_VERSION }}"
+
+          cd 15-Job-Output-Configuration-CI-Workflow
+          npm run deploy

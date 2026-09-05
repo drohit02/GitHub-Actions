@@ -1,0 +1,61 @@
+# GitHub Actions: Job Output Configuration
+
+name: "🔗 [Workflow-15] Job Output Configuration"
+
+run-name: "🔗 [Workflow-15] ${{ github.actor }} → Passing Data Between Jobs"
+
+on : 
+  push :
+    branches : 
+      - 'develop'
+      - 'master'
+    paths : 
+      - '15-Job-Output-Configuration-CI.yml'
+      - '15-Job-Output-Configuration-CI-Workflow'
+
+jobs : 
+  build-job : 
+    name :  Node Js App Build Job
+    runs-on : ubuntu-latest
+    outputs : 
+      build-version :  ${{steps.build_step_1.outputs.app_version}}
+      node-vesion : ${{steps.build_step_1.outputs.node_version}}
+    env : 
+          BUILD_VERSION : '1.2.1'
+          NODE_VERSION : '24'
+    steps : 
+      - name : build steps for Node JS
+        id : build_step_1
+
+      - uses : actions/checkout@v4
+
+      - uses : actions/setup-nde@v7
+        with :
+          node-version : ${{env.NODE_VERSION}}
+
+      - run : ehco "Running the Node Js Test with the ${{env.NODE_VERSION}}"" && cd 15-Job-Output-Configuration-CI-Workflow && npm install
+
+      - run :  cd 15-Job-Output-Configuration-CI-Workflow && npm run Test
+
+      - run : echo  "Running the Node Js Build " && npm run build && echo "app_version=${{env.BUILD_VERSION}}" >> $GITHUB_OUTPUT
+
+      - run : echo "node_version=${{env.NODE_VERSION}}" >> $GITHUB_OUTPUT
+
+    deployment :
+      name :  Node Js App Deployment Job
+      runs-on : ubuntu-latest
+      needs :  build-job
+      env : 
+        APP_VERSION : ${{needs.build-job.outputs.build-version}}
+        NODE_VERSION : ${{needs.build-job.outputs.node-version}}
+      steps : 
+
+        - uses : actions/checkout@v4
+        - uses : actions/setup-node@v7
+          with :
+            node-version : ${{env.NODE_VERSION}}
+        - run : echo "Started the Node Js Deployement with the ${{env.NODE_VERSION}}"" && cd 15-Job-Output-Configuration-CI-Workflow && npm install
+
+        - run : echo "Running the Node Js Deployement with the ${{env.APP_VERSION}} App Version && cd 15-Job-Output-Configuration-CI-Workflow && npm run deploy
+
+

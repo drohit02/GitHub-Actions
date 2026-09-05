@@ -1,0 +1,8 @@
+{
+    "name" : "Job Outputs Configuation using GitHub Actions",
+    "version": "1.0.1",
+    "scripts": {
+        "test" : "node test.js",
+        "build" : "node build.js"
+    }
+}
